@@ -4,41 +4,64 @@ Rich chat enhancements for the Mira Minecraft plugin ecosystem.
 
 ## Download
 
-[**Download MiraChats v0.2.0**](https://github.com/FiveSOCE/Mira-Chats/releases/download/v0.2.0/MiraChats-0.2.0.jar)
+[**Download MiraChats v0.3.0**](https://github.com/FiveSOCE/Mira-Chats/releases/download/v0.3.0/MiraChats-0.3.0.jar)
 
 [View All Releases](https://github.com/FiveSOCE/Mira-Chats/releases)
 
-## Baseline feature: `[item]`
+## Rich chat features
 
-Players can type `[item]` anywhere in a normal EssentialsXChat message. MiraChats replaces only that token with:
+MiraChats keeps EssentialsXChat in charge of the normal chat format and enriches only special message fragments.
 
-`[<Item Name>]`
+### `[item]`
 
-Hovering the replacement shows Minecraft's native tooltip for the exact item the player was holding when the message was sent, including its display name, lore, enchantments and item metadata.
+Links the item in the player's main hand.
 
-MiraChats does **not** replace EssentialsXChat. Essentials still calculates prefixes, display names, suffixes/tags, group formatting and recipients. For messages containing `[item]`, MiraChats takes Essentials' completed format and sends that one line as an Adventure component so the hover event survives.
+- Visible as `[Item Name]`
+- Native Minecraft item hover
+- Includes lore, enchantments and item metadata
+- Not clickable
 
-### Example
+### `[inv]`
 
-Player sends:
+Creates a read-only snapshot of the sender's inventory.
 
-`check this out [item]`
+Visible as:
 
-Existing chat formatting remains intact:
+`<Player Display Name>'s [Inventory]`
 
-`[Owner] Marco: check this out [Pyro Axe]`
+Clicking the link opens the snapshot. The snapshot cannot be edited and expires automatically.
 
-Only `[Pyro Axe]` receives the item hover event.
+### `[enderchest]`
 
-## Diagnostics
+Creates a read-only snapshot of the sender's ender chest.
 
-Use `/mirachats status` as an operator. On a server using EssentialsXChat, it should report:
+Visible as:
 
-`Chat bridge: EssentialsXChat`
+`<Player Display Name>'s [Enderchest]`
 
-Set `debug: true` in `plugins/MiraChats/config.yml` to log when the Essentials bridge catches an `[item]` message.
+Clicking the link opens the snapshot. The snapshot cannot be edited and expires automatically.
 
-## Compatibility target
+### Player mentions
+
+Mention an online player with:
+
+`@Username`
+
+The mention can be clicked to prefill:
+
+`/msg Username `
+
+### Chat channels
+
+Players with `mirachats.channel` can use:
+
+- `/mchannel auto` - let EssentialsXChat choose the normal chat scope
+- `/mchannel global` - send to all online players
+- `/mchannel local` - restrict recipients to the configured local radius
+
+Default local radius: `100` blocks.
+
+## Compatibility
 
 - Paper 1.21.x / Java 21
 - EssentialsX / EssentialsXChat
@@ -48,11 +71,24 @@ Set `debug: true` in `plugins/MiraChats/config.yml` to log when the Essentials b
 - MiraTags
 - MiraCore
 
-## Permission
+## Permissions
 
-- `mirachats.item` - use `[item]` in chat. Enabled by default.
-- `mirachats.admin` - use MiraChats diagnostics. OP by default.
+- `mirachats.item`
+- `mirachats.inventory`
+- `mirachats.enderchest`
+- `mirachats.mentions`
+- `mirachats.channel`
+- `mirachats.admin`
+- `mirachats.*`
 
-## Configuration
+## Diagnostics
 
-See `src/main/resources/config.yml`.
+Operators can run:
+
+`/mirachats`
+
+On a server using EssentialsXChat it should report:
+
+`Chat bridge: EssentialsXChat`
+
+Set `debug: true` in `plugins/MiraChats/config.yml` for rich-chat logging.
