@@ -26,6 +26,14 @@ channels:
   enabled: true
   local-radius: 100.0
 
+factions:
+  enabled: true
+  format: "&f<%marker%%faction%>&r "
+  role-markers:
+    member: ""
+    coleader: "*"
+    leader: "**"
+
 snapshots:
   # Linked inventory and ender chest views are immutable snapshots.
   ttl-seconds: 120
