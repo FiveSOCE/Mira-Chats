@@ -34,19 +34,20 @@ jobs:
           name: MiraChats
           path: build/libs/MiraChats-*.jar
 
-      - name: Publish v0.1.1 release
+      - name: Publish v0.2.0 release
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v0.1.1
+          tag_name: v0.2.0
           target_commitish: main
-          name: MiraChats v0.1.1
+          name: MiraChats v0.2.0
           body: |
-            [item] compatibility hotfix.
+            EssentialsXChat-native [item] bridge.
 
-            - Runs rich item replacement after chat formatters.
-            - Removes a brittle newer Paper item-name call.
-            - Adds /mirachats status diagnostics.
-            - Adds optional debug logging.
+            - Hooks Essentials GlobalChatEvent and LocalChatEvent directly.
+            - Lets Essentials calculate the final format and recipients.
+            - Cancels only [item] messages and rebroadcasts them as Adventure components.
+            - Preserves native item hover data.
+            - Normal messages remain fully owned by EssentialsXChat.
           make_latest: true
-          files: build/libs/MiraChats-0.1.1.jar
+          files: build/libs/MiraChats-0.2.0.jar
