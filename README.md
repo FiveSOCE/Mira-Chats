@@ -4,7 +4,7 @@ Rich chat enhancements for the Mira Minecraft plugin ecosystem.
 
 ## Download
 
-[**Download MiraChats v0.1.0**](https://github.com/FiveSOCE/Mira-Chats/releases/download/v0.1.0/MiraChats-0.1.0.jar)
+[**Download MiraChats v0.1.1**](https://github.com/FiveSOCE/Mira-Chats/releases/download/v0.1.1/MiraChats-0.1.1.jar)
 
 [View All Releases](https://github.com/FiveSOCE/Mira-Chats/releases)
 
@@ -30,6 +30,12 @@ Existing chat formatting remains intact:
 
 Only `[Pyro Axe]` receives the item hover event.
 
+## Diagnostics
+
+Use `/mirachats status` as an operator to verify MiraChats is loaded and to see whether Essentials, EssentialsChat, LuckPerms and MiraTags are detected.
+
+Set `debug: true` in `plugins/MiraChats/config.yml` to log when `[item]` is detected and replaced.
+
 ## Compatibility target
 
 - Paper 1.21.x / Java 21
@@ -45,6 +51,7 @@ The baseline `[item]` implementation only requires Paper. The other plugins rema
 ## Permission
 
 - `mirachats.item` - use `[item]` in chat. Enabled by default.
+- `mirachats.admin` - use MiraChats diagnostics. OP by default.
 
 ## Configuration
 
