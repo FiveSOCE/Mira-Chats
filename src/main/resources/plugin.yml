@@ -14,12 +14,22 @@ softdepend:
   - MiraTags
   - MiraCore
 
+commands:
+  mirachats:
+    description: Shows MiraChats diagnostic status.
+    usage: /mirachats status
+    permission: mirachats.admin
+
 permissions:
   mirachats.item:
     description: Allows a player to link the item in their main hand with [item].
     default: true
+  mirachats.admin:
+    description: Allows MiraChats diagnostics.
+    default: op
   mirachats.*:
     description: Grants all MiraChats permissions.
     default: op
     children:
       mirachats.item: true
+      mirachats.admin: true
