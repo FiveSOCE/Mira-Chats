@@ -1,0 +1,10 @@
+item-link:
+  enabled: true
+  placeholder: "[item]"
+  case-sensitive: false
+  permission: "mirachats.item"
+
+  # If the player uses [item] while holding nothing, their chat message is
+  # left alone instead of being cancelled.
+  empty-hand:
+    leave-placeholder: true
