@@ -1,3 +1,5 @@
+debug: false
+
 item-link:
   enabled: true
   placeholder: "[item]"
