@@ -2,6 +2,7 @@ package com.mira.chats.listener;
 
 import com.mira.chats.MiraChats;
 import com.mira.chats.service.ChannelService;
+import com.mira.chats.service.FactionChatService;
 import com.mira.chats.service.ItemLinkService;
 import com.mira.chats.snapshot.SnapshotService;
 import net.essentialsx.api.v2.events.chat.ChatEvent;
@@ -24,17 +25,20 @@ public final class EssentialsRichChatListener implements Listener {
     private final ItemLinkService richService;
     private final SnapshotService snapshotService;
     private final ChannelService channelService;
+    private final FactionChatService factionChatService;
 
     public EssentialsRichChatListener(
             MiraChats plugin,
             ItemLinkService richService,
             SnapshotService snapshotService,
-            ChannelService channelService
+            ChannelService channelService,
+            FactionChatService factionChatService
     ) {
         this.plugin = plugin;
         this.richService = richService;
         this.snapshotService = snapshotService;
         this.channelService = channelService;
+        this.factionChatService = factionChatService;
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
@@ -91,10 +95,14 @@ public final class EssentialsRichChatListener implements Listener {
                 ))
                 && richService.containsMention(message);
 
+        Component factionPrefix = factionChatService.prefix(player);
+        boolean hasFactionPrefix = !factionPrefix.equals(Component.empty());
+
         boolean hasRichContent = item != null
                 || inventoryToken != null
                 || enderChestToken != null
-                || mentionsRequested;
+                || mentionsRequested
+                || hasFactionPrefix;
 
         if (!hasRichContent) {
             return;
@@ -115,6 +123,10 @@ public final class EssentialsRichChatListener implements Listener {
                 richMessage
         );
 
+        if (hasFactionPrefix) {
+            richLine = factionPrefix.append(richLine);
+        }
+
         event.setCancelled(true);
 
         if (plugin.getConfig().getBoolean("debug", false)) {
@@ -125,11 +137,12 @@ public final class EssentialsRichChatListener implements Listener {
             );
         }
 
+        Component finalLine = richLine;
         plugin.getServer().getScheduler().runTask(plugin, () -> {
             for (Player recipient : recipients) {
-                recipient.sendMessage(richLine);
+                recipient.sendMessage(finalLine);
             }
-            plugin.getServer().getConsoleSender().sendMessage(richLine);
+            plugin.getServer().getConsoleSender().sendMessage(finalLine);
         });
     }
 
