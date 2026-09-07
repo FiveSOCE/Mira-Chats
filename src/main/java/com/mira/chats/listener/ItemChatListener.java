@@ -21,7 +21,7 @@ public final class ItemChatListener implements Listener {
         this.itemLinkService = itemLinkService;
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onChat(AsyncChatEvent event) {
         if (!plugin.getConfig().getBoolean("item-link.enabled", true)) {
             return;
@@ -33,19 +33,31 @@ public final class ItemChatListener implements Listener {
         }
 
         Player player = event.getPlayer();
+        if (plugin.getConfig().getBoolean("debug", false)) {
+            plugin.getLogger().info("Caught [item] from " + player.getName());
+        }
+
         String permission = plugin.getConfig().getString("item-link.permission", "mirachats.item");
         if (permission != null && !permission.isBlank() && !player.hasPermission(permission)) {
+            if (plugin.getConfig().getBoolean("debug", false)) {
+                plugin.getLogger().info("Player " + player.getName() + " lacks " + permission);
+            }
             return;
         }
 
         ItemStack heldItem = player.getInventory().getItemInMainHand();
         if (heldItem.getType() == Material.AIR || heldItem.getAmount() <= 0) {
+            if (plugin.getConfig().getBoolean("debug", false)) {
+                plugin.getLogger().info("Player " + player.getName() + " used [item] with an empty main hand.");
+            }
             return;
         }
 
-        // Snapshot the stack at chat-send time so later inventory changes cannot
-        // alter what the original message displays.
         ItemStack snapshot = heldItem.clone();
         event.message(itemLinkService.replacePlaceholders(message, snapshot));
+
+        if (plugin.getConfig().getBoolean("debug", false)) {
+            plugin.getLogger().info("Replaced [item] for " + player.getName() + " using " + snapshot.getType());
+        }
     }
 }
