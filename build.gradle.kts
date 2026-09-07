@@ -8,12 +8,11 @@ version = "0.2.0"
 repositories {
     mavenCentral()
     maven("https://repo.papermc.io/repository/maven-public/")
-    maven("https://repo.essentialsx.net/")
 }
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT")
-    compileOnly("net.essentialsx:EssentialsX:2.22.0")
+    compileOnly(files("libs/EssentialsX-2.22.0.jar"))
 
     testImplementation(platform("org.junit:junit-bom:5.11.4"))
     testImplementation("org.junit.jupiter:junit-jupiter")
