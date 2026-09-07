@@ -4,6 +4,7 @@ import com.mira.chats.listener.EssentialsRichChatListener;
 import com.mira.chats.listener.ItemChatListener;
 import com.mira.chats.listener.SnapshotInventoryListener;
 import com.mira.chats.service.ChannelService;
+import com.mira.chats.service.FactionChatService;
 import com.mira.chats.service.ItemLinkService;
 import com.mira.chats.snapshot.SnapshotService;
 import org.bukkit.command.Command;
@@ -16,6 +17,7 @@ public final class MiraChats extends JavaPlugin {
     private ItemLinkService itemLinkService;
     private SnapshotService snapshotService;
     private ChannelService channelService;
+    private FactionChatService factionChatService;
     private String chatBridge;
 
     @Override
@@ -25,6 +27,7 @@ public final class MiraChats extends JavaPlugin {
         this.itemLinkService = new ItemLinkService(this);
         this.snapshotService = new SnapshotService(this);
         this.channelService = new ChannelService(this);
+        this.factionChatService = new FactionChatService(this);
 
         getServer().getPluginManager().registerEvents(
                 new SnapshotInventoryListener(),
@@ -37,7 +40,8 @@ public final class MiraChats extends JavaPlugin {
                             this,
                             itemLinkService,
                             snapshotService,
-                            channelService
+                            channelService,
+                            factionChatService
                     ),
                     this
             );
@@ -63,7 +67,8 @@ public final class MiraChats extends JavaPlugin {
         getLogger().info("Essentials: " + pluginState("Essentials")
                 + ", EssentialsChat: " + pluginState("EssentialsChat")
                 + ", LuckPerms: " + pluginState("LuckPerms")
-                + ", MiraTags: " + pluginState("MiraTags"));
+                + ", MiraTags: " + pluginState("MiraTags")
+                + ", MiraFactions: " + pluginState("MiraFactions"));
     }
 
     @Override
@@ -99,11 +104,13 @@ public final class MiraChats extends JavaPlugin {
         sender.sendMessage("§7[enderchest]: §f" + state("enderchest-link.enabled"));
         sender.sendMessage("§7Mentions: §f" + state("mentions.enabled"));
         sender.sendMessage("§7Channels: §f" + state("channels.enabled"));
+        sender.sendMessage("§7Factions: §f" + state("factions.enabled"));
         sender.sendMessage("§7Chat bridge: §f" + chatBridge);
         sender.sendMessage("§7Essentials: §f" + pluginState("Essentials"));
         sender.sendMessage("§7EssentialsChat: §f" + pluginState("EssentialsChat"));
         sender.sendMessage("§7LuckPerms: §f" + pluginState("LuckPerms"));
         sender.sendMessage("§7MiraTags: §f" + pluginState("MiraTags"));
+        sender.sendMessage("§7MiraFactions: §f" + pluginState("MiraFactions"));
         sender.sendMessage("§7Server: §f" + getServer().getVersion());
         return true;
     }
