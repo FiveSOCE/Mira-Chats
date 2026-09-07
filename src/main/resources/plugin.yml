@@ -1,0 +1,25 @@
+name: MiraChats
+version: '${version}'
+main: com.mira.chats.MiraChats
+api-version: '1.21'
+description: Rich chat enhancements for the Mira ecosystem.
+authors: [FiveSOCE]
+
+softdepend:
+  - Essentials
+  - EssentialsChat
+  - LuckPerms
+  - Vault
+  - PlaceholderAPI
+  - MiraTags
+  - MiraCore
+
+permissions:
+  mirachats.item:
+    description: Allows a player to link the item in their main hand with [item].
+    default: true
+  mirachats.*:
+    description: Grants all MiraChats permissions.
+    default: op
+    children:
+      mirachats.item: true
