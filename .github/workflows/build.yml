@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
@@ -33,3 +33,19 @@ jobs:
         with:
           name: MiraChats
           path: build/libs/MiraChats-*.jar
+
+      - name: Publish v0.1.0 release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v0.1.0
+          target_commitish: main
+          name: MiraChats v0.1.0
+          body: |
+            Initial MiraChats baseline release.
+
+            - Adds the [item] rich-chat placeholder.
+            - Preserves the existing EssentialsXChat format.
+            - Hovering the linked item shows the native Minecraft item tooltip.
+          make_latest: true
+          files: build/libs/MiraChats-0.1.0.jar
