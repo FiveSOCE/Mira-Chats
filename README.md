@@ -4,19 +4,19 @@ Rich chat enhancements for the Mira Minecraft plugin ecosystem.
 
 ## Download
 
-[**Download MiraChats v0.1.1**](https://github.com/FiveSOCE/Mira-Chats/releases/download/v0.1.1/MiraChats-0.1.1.jar)
+[**Download MiraChats v0.2.0**](https://github.com/FiveSOCE/Mira-Chats/releases/download/v0.2.0/MiraChats-0.2.0.jar)
 
 [View All Releases](https://github.com/FiveSOCE/Mira-Chats/releases)
 
 ## Baseline feature: `[item]`
 
-Players can type `[item]` anywhere in a normal chat message. MiraChats replaces only that token with:
+Players can type `[item]` anywhere in a normal EssentialsXChat message. MiraChats replaces only that token with:
 
 `[<Item Name>]`
 
 Hovering the replacement shows Minecraft's native tooltip for the exact item the player was holding when the message was sent, including its display name, lore, enchantments and item metadata.
 
-MiraChats does **not** rebuild or take ownership of the surrounding chat format. EssentialsXChat can continue handling prefixes, nicknames, ranks and the normal chat layout.
+MiraChats does **not** replace EssentialsXChat. Essentials still calculates prefixes, display names, suffixes/tags, group formatting and recipients. For messages containing `[item]`, MiraChats takes Essentials' completed format and sends that one line as an Adventure component so the hover event survives.
 
 ### Example
 
@@ -32,9 +32,11 @@ Only `[Pyro Axe]` receives the item hover event.
 
 ## Diagnostics
 
-Use `/mirachats status` as an operator to verify MiraChats is loaded and to see whether Essentials, EssentialsChat, LuckPerms and MiraTags are detected.
+Use `/mirachats status` as an operator. On a server using EssentialsXChat, it should report:
 
-Set `debug: true` in `plugins/MiraChats/config.yml` to log when `[item]` is detected and replaced.
+`Chat bridge: EssentialsXChat`
+
+Set `debug: true` in `plugins/MiraChats/config.yml` to log when the Essentials bridge catches an `[item]` message.
 
 ## Compatibility target
 
@@ -45,8 +47,6 @@ Set `debug: true` in `plugins/MiraChats/config.yml` to log when `[item]` is dete
 - PlaceholderAPI
 - MiraTags
 - MiraCore
-
-The baseline `[item]` implementation only requires Paper. The other plugins remain soft compatibility targets so MiraChats does not unnecessarily hard-depend on the server's formatting stack.
 
 ## Permission
 
