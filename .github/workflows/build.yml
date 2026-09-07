@@ -34,18 +34,19 @@ jobs:
           name: MiraChats
           path: build/libs/MiraChats-*.jar
 
-      - name: Publish v0.1.0 release
+      - name: Publish v0.1.1 release
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v0.1.0
+          tag_name: v0.1.1
           target_commitish: main
-          name: MiraChats v0.1.0
+          name: MiraChats v0.1.1
           body: |
-            Initial MiraChats baseline release.
+            [item] compatibility hotfix.
 
-            - Adds the [item] rich-chat placeholder.
-            - Preserves the existing EssentialsXChat format.
-            - Hovering the linked item shows the native Minecraft item tooltip.
+            - Runs rich item replacement after chat formatters.
+            - Removes a brittle newer Paper item-name call.
+            - Adds /mirachats status diagnostics.
+            - Adds optional debug logging.
           make_latest: true
-          files: build/libs/MiraChats-0.1.0.jar
+          files: build/libs/MiraChats-0.1.1.jar
