@@ -2,6 +2,12 @@
 
 Rich chat enhancements for the Mira Minecraft plugin ecosystem.
 
+## Download
+
+[**Download MiraChats v0.1.0**](https://github.com/FiveSOCE/Mira-Chats/releases/download/v0.1.0/MiraChats-0.1.0.jar)
+
+[View All Releases](https://github.com/FiveSOCE/Mira-Chats/releases)
+
 ## Baseline feature: `[item]`
 
 Players can type `[item]` anywhere in a normal chat message. MiraChats replaces only that token with:
