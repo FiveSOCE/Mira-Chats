@@ -39,20 +39,21 @@ jobs:
           name: MiraChats
           path: build/libs/MiraChats-*.jar
 
-      - name: Publish v0.2.0 release
+      - name: Publish v0.3.0 release
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v0.2.0
+          tag_name: v0.3.0
           target_commitish: main
-          name: MiraChats v0.2.0
+          name: MiraChats v0.3.0
           body: |
-            EssentialsXChat-native [item] bridge.
+            Rich chat bundle.
 
-            - Hooks Essentials GlobalChatEvent and LocalChatEvent directly.
-            - Lets Essentials calculate the final format and recipients.
-            - Cancels only [item] messages and rebroadcasts them as Adventure components.
-            - Preserves native item hover data.
-            - Normal messages remain fully owned by EssentialsXChat.
+            - [item] keeps native item hover.
+            - [inv] links a read-only inventory snapshot.
+            - [enderchest] links a read-only ender chest snapshot.
+            - @player mentions can prefill /msg.
+            - /mchannel supports auto, global and local modes.
+            - Normal EssentialsXChat formatting remains preserved.
           make_latest: true
-          files: build/libs/MiraChats-0.2.0.jar
+          files: build/libs/MiraChats-0.3.0.jar
