@@ -25,6 +25,11 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
+      - name: Download EssentialsX API jar
+        run: |
+          mkdir -p libs
+          curl -fL "https://github.com/EssentialsX/Essentials/releases/download/2.22.0/EssentialsX-2.22.0.jar"             -o libs/EssentialsX-2.22.0.jar
+
       - name: Build
         run: gradle clean build --stacktrace
 
