@@ -1,5 +1,6 @@
 package com.mira.chats;
 
+import com.mira.chats.listener.EssentialsItemChatListener;
 import com.mira.chats.listener.ItemChatListener;
 import com.mira.chats.service.ItemLinkService;
 import org.bukkit.command.Command;
@@ -9,18 +10,30 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class MiraChats extends JavaPlugin {
 
     private ItemLinkService itemLinkService;
+    private String chatBridge;
 
     @Override
     public void onEnable() {
         saveDefaultConfig();
 
         this.itemLinkService = new ItemLinkService(this);
-        getServer().getPluginManager().registerEvents(
-                new ItemChatListener(this, itemLinkService),
-                this
-        );
+
+        if (isPluginEnabled("EssentialsChat") && isPluginEnabled("Essentials")) {
+            getServer().getPluginManager().registerEvents(
+                    new EssentialsItemChatListener(this, itemLinkService),
+                    this
+            );
+            this.chatBridge = "EssentialsXChat";
+        } else {
+            getServer().getPluginManager().registerEvents(
+                    new ItemChatListener(this, itemLinkService),
+                    this
+            );
+            this.chatBridge = "Paper";
+        }
 
         getLogger().info("MiraChats enabled. Rich [item] links are ready.");
+        getLogger().info("Chat bridge: " + chatBridge);
         getLogger().info("Server: " + getServer().getName() + " " + getServer().getVersion());
         getLogger().info("Essentials: " + pluginState("Essentials")
                 + ", EssentialsChat: " + pluginState("EssentialsChat")
@@ -41,6 +54,7 @@ public final class MiraChats extends JavaPlugin {
 
         sender.sendMessage("§5§lMiraChats §8>> §fVersion §d" + getPluginMeta().getVersion());
         sender.sendMessage("§7[item]: §f" + (getConfig().getBoolean("item-link.enabled", true) ? "enabled" : "disabled"));
+        sender.sendMessage("§7Chat bridge: §f" + chatBridge);
         sender.sendMessage("§7Essentials: §f" + pluginState("Essentials"));
         sender.sendMessage("§7EssentialsChat: §f" + pluginState("EssentialsChat"));
         sender.sendMessage("§7LuckPerms: §f" + pluginState("LuckPerms"));
@@ -53,8 +67,12 @@ public final class MiraChats extends JavaPlugin {
         return itemLinkService;
     }
 
-    private String pluginState(String name) {
+    private boolean isPluginEnabled(String name) {
         var plugin = getServer().getPluginManager().getPlugin(name);
-        return plugin != null && plugin.isEnabled() ? "enabled" : "missing/disabled";
+        return plugin != null && plugin.isEnabled();
+    }
+
+    private String pluginState(String name) {
+        return isPluginEnabled(name) ? "enabled" : "missing/disabled";
     }
 }
