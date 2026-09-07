@@ -6,7 +6,9 @@ import net.kyori.adventure.text.TextReplacementConfig;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 public final class ItemLinkService {
@@ -25,7 +27,7 @@ public final class ItemLinkService {
             return plainMessage.contains(placeholder);
         }
 
-        return plainMessage.toLowerCase().contains(placeholder.toLowerCase());
+        return plainMessage.toLowerCase(Locale.ROOT).contains(placeholder.toLowerCase(Locale.ROOT));
     }
 
     public Component replacePlaceholders(Component message, ItemStack item) {
@@ -40,12 +42,39 @@ public final class ItemLinkService {
     }
 
     private Component createItemLink(ItemStack item) {
-        Component itemName = item.effectiveName();
+        Component itemName = resolveItemName(item);
 
         return Component.text("[", NamedTextColor.WHITE)
                 .append(itemName)
                 .append(Component.text("]", NamedTextColor.WHITE))
                 .hoverEvent(item.asHoverEvent());
+    }
+
+    private Component resolveItemName(ItemStack item) {
+        ItemMeta meta = item.getItemMeta();
+        if (meta != null && meta.hasDisplayName() && meta.displayName() != null) {
+            return meta.displayName();
+        }
+
+        String readable = item.getType().name()
+                .toLowerCase(Locale.ROOT)
+                .replace('_', ' ');
+
+        StringBuilder title = new StringBuilder(readable.length());
+        boolean upper = true;
+        for (char c : readable.toCharArray()) {
+            if (upper && Character.isLetter(c)) {
+                title.append(Character.toUpperCase(c));
+                upper = false;
+            } else {
+                title.append(c);
+            }
+            if (c == ' ') {
+                upper = true;
+            }
+        }
+
+        return Component.text(title.toString());
     }
 
     private Pattern placeholderPattern() {
