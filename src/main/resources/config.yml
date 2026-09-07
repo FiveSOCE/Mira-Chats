@@ -6,7 +6,26 @@ item-link:
   case-sensitive: false
   permission: "mirachats.item"
 
-  # If the player uses [item] while holding nothing, their chat message is
-  # left alone instead of being cancelled.
-  empty-hand:
-    leave-placeholder: true
+inventory-link:
+  enabled: true
+  placeholder: "[inv]"
+  case-sensitive: false
+  permission: "mirachats.inventory"
+
+enderchest-link:
+  enabled: true
+  placeholder: "[enderchest]"
+  case-sensitive: false
+  permission: "mirachats.enderchest"
+
+mentions:
+  enabled: true
+  permission: "mirachats.mentions"
+
+channels:
+  enabled: true
+  local-radius: 100.0
+
+snapshots:
+  # Linked inventory and ender chest views are immutable snapshots.
+  ttl-seconds: 120
