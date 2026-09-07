@@ -4,7 +4,7 @@ Rich chat enhancements for the Mira Minecraft plugin ecosystem.
 
 ## Download
 
-[**Download MiraChats v0.3.0**](https://github.com/FiveSOCE/Mira-Chats/releases/download/v0.3.0/MiraChats-0.3.0.jar)
+[**Download MiraChats v0.3.1**](https://github.com/FiveSOCE/Mira-Chats/releases/download/v0.3.1/MiraChats-0.3.1.jar)
 
 [View All Releases](https://github.com/FiveSOCE/Mira-Chats/releases)
 
@@ -60,6 +60,19 @@ Players with `mirachats.channel` can use:
 - `/mchannel local` - restrict recipients to the configured local radius
 
 Default local radius: `100` blocks.
+
+## Faction chat prefix
+
+When MiraFactions v0.2.23+ is installed, MiraChats prepends the sender's faction before the normal EssentialsXChat/LuckPerms format.
+
+Examples:
+
+- Member: `<Faction> [Prefix] Username [Suffix]: hello world`
+- CoLeader: `*<Faction> [Prefix] Username [Suffix]: hello world`
+- Leader: `**<Faction> [Prefix] Username [Suffix]: hello world`
+- Factionless: existing chat format remains unchanged.
+
+The faction prefix is controlled by the `factions` section in `config.yml`.
 
 ## Compatibility
 
