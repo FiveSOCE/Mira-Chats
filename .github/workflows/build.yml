@@ -25,10 +25,19 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
+      - name: Resolve version
+        id: version
+        shell: bash
+        run: |
+          VERSION=$(sed -n 's/^version = "\([^"]*\)"/\1/p' build.gradle.kts | head -n1)
+          test -n "$VERSION"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
       - name: Download EssentialsX API jar
         run: |
           mkdir -p libs
-          curl -fL "https://github.com/EssentialsX/Essentials/releases/download/2.22.0/EssentialsX-2.22.0.jar"             -o libs/EssentialsX-2.22.0.jar
+          curl -fL "https://github.com/EssentialsX/Essentials/releases/download/2.22.0/EssentialsX-2.22.0.jar" \
+            -o libs/EssentialsX-2.22.0.jar
 
       - name: Build
         run: gradle clean build --stacktrace
@@ -36,24 +45,21 @@ jobs:
       - name: Upload plugin jar
         uses: actions/upload-artifact@v4
         with:
-          name: MiraChats
-          path: build/libs/MiraChats-*.jar
+          name: MiraChats-${{ steps.version.outputs.version }}
+          path: build/libs/MiraChats-${{ steps.version.outputs.version }}.jar
+          if-no-files-found: error
 
-      - name: Publish v0.3.0 release
+      - name: Publish release
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: v0.3.0
-          target_commitish: main
-          name: MiraChats v0.3.0
-          body: |
-            Rich chat bundle.
-
-            - [item] keeps native item hover.
-            - [inv] links a read-only inventory snapshot.
-            - [enderchest] links a read-only ender chest snapshot.
-            - @player mentions can prefill /msg.
-            - /mchannel supports auto, global and local modes.
-            - Normal EssentialsXChat formatting remains preserved.
-          make_latest: true
-          files: build/libs/MiraChats-0.3.0.jar
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          TAG="v$VERSION"
+          JAR="build/libs/MiraChats-$VERSION.jar"
+          if ! gh release view "$TAG" >/dev/null 2>&1; then
+            gh release create "$TAG" "$JAR" \
+              --target "${{ github.sha }}" \
+              --title "MiraChats $TAG" \
+              --notes "Adds MiraFactions chat prefixes before the existing EssentialsXChat/LuckPerms format. CoLeaders receive *, Leaders receive **, and factionless players keep the existing chat format unchanged."
+          fi
