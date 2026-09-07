@@ -16,13 +16,28 @@ softdepend:
 
 commands:
   mirachats:
-    description: Shows MiraChats diagnostic status.
-    usage: /mirachats status
-    permission: mirachats.admin
+    description: MiraChats diagnostics and internal snapshot viewer.
+    usage: /mirachats
+  mchannel:
+    description: Select MiraChats chat channel mode.
+    usage: /mchannel <auto|global|local>
+    aliases: [mch]
 
 permissions:
   mirachats.item:
     description: Allows a player to link the item in their main hand with [item].
+    default: true
+  mirachats.inventory:
+    description: Allows a player to link an inventory snapshot with [inv].
+    default: true
+  mirachats.enderchest:
+    description: Allows a player to link an ender chest snapshot with [enderchest].
+    default: true
+  mirachats.mentions:
+    description: Allows clickable player mentions.
+    default: true
+  mirachats.channel:
+    description: Allows /mchannel.
     default: true
   mirachats.admin:
     description: Allows MiraChats diagnostics.
@@ -32,4 +47,8 @@ permissions:
     default: op
     children:
       mirachats.item: true
+      mirachats.inventory: true
+      mirachats.enderchest: true
+      mirachats.mentions: true
+      mirachats.channel: true
       mirachats.admin: true
