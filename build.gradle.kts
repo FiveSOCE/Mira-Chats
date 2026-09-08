@@ -3,15 +3,19 @@ plugins {
 }
 
 group = "com.mira"
-version = "0.3.1"
+version = "0.3.2"
 
 repositories {
     mavenCentral()
     maven("https://repo.papermc.io/repository/maven-public/")
 }
 
+val paperApiVersion = providers.gradleProperty("paperApiVersion").orElse("1.21.11-R0.1-SNAPSHOT")
+val compileJavaVersion = providers.gradleProperty("compileJavaVersion").map(String::toInt).orElse(21)
+val bytecodeJavaVersion = providers.gradleProperty("bytecodeJavaVersion").map(String::toInt).orElse(21)
+
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:${paperApiVersion.get()}")
     compileOnly(files("libs/EssentialsX-2.22.0.jar"))
 
     testImplementation(platform("org.junit:junit-bom:5.11.4"))
@@ -19,12 +23,12 @@ dependencies {
 }
 
 java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
+    toolchain.languageVersion.set(JavaLanguageVersion.of(compileJavaVersion.get()))
 }
 
 tasks.withType<JavaCompile>().configureEach {
     options.encoding = "UTF-8"
-    options.release.set(21)
+    options.release.set(bytecodeJavaVersion.get())
 }
 
 tasks.test {
