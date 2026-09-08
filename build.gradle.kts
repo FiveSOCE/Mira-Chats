@@ -8,6 +8,7 @@ version = "0.3.2"
 repositories {
     mavenCentral()
     maven("https://repo.papermc.io/repository/maven-public/")
+    maven("https://repo.essentialsx.net/releases/")
 }
 
 val paperApiVersion = providers.gradleProperty("paperApiVersion").orElse("1.21.11-R0.1-SNAPSHOT")
@@ -16,7 +17,7 @@ val bytecodeJavaVersion = providers.gradleProperty("bytecodeJavaVersion").map(St
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:${paperApiVersion.get()}")
-    compileOnly(files("libs/EssentialsX-2.22.0.jar"))
+    compileOnly("net.essentialsx:EssentialsX:2.22.0")
 
     testImplementation(platform("org.junit:junit-bom:5.11.4"))
     testImplementation("org.junit.jupiter:junit-jupiter")
