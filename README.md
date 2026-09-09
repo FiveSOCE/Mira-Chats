@@ -4,7 +4,7 @@ Rich chat enhancements for the Mira Minecraft plugin ecosystem.
 
 ## Download
 
-[**Download MiraChats v0.3.1**](https://github.com/FiveSOCE/Mira-Chats/releases/download/v0.3.1/MiraChats-0.3.1.jar)
+[**Download MiraChats v0.3.1**](https://github.com/FiveSOCE/Mira-Chats/releases/download/v0.3.2/MiraChats-0.3.2.jar)
 
 [View All Releases](https://github.com/FiveSOCE/Mira-Chats/releases)
 
